@@ -8,7 +8,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -39,8 +44,36 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        List<LatLng> locations = getLocations();
+
+        Marker harry = mMap.addMarker(new MarkerOptions().position(locations.get(0)).title("Harry Chaiescu"));
+        harry.setTag("108023029965945");
+
+        Marker carol = mMap.addMarker(new MarkerOptions().position(locations.get(1)).title("Carol Yangescu"));
+        carol.setTag("106489403453261");
+
+        Marker karen = mMap.addMarker(new MarkerOptions().position(locations.get(2)).title("Karen Bowerswitz"));
+        karen.setTag("114369772663137");
+
+        Marker tom = mMap.addMarker(new MarkerOptions().position(locations.get(3)).title("Tom Bushaksky"));
+        tom.setTag("113951469371495");
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(locations.get(0)));
+    }
+
+    private List<LatLng> getLocations() {
+        List<LatLng> locations = new ArrayList<LatLng>();
+
+        LatLng dobie = new LatLng(30.283362, -97.741341);
+        LatLng northoffice = new LatLng(30.291151, -97.737512);
+        LatLng gdc = new LatLng(30.286225, -97.736606);
+        LatLng pcl = new LatLng(30.282639, -97.738187);
+
+        locations.add(dobie);
+        locations.add(northoffice);
+        locations.add(gdc);
+        locations.add(pcl);
+
+        return locations;
     }
 }
