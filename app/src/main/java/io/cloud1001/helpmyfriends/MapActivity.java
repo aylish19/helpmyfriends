@@ -3,11 +3,13 @@ package io.cloud1001.helpmyfriends;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -45,20 +47,32 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         // Add a marker in Sydney and move the camera
         List<LatLng> locations = getLocations();
+        List<Marker> markers = new ArrayList<Marker>();
 
         Marker harry = mMap.addMarker(new MarkerOptions().position(locations.get(0)).title("Harry Chaiescu"));
         harry.setTag("108023029965945");
+        markers.add(harry);
 
         Marker carol = mMap.addMarker(new MarkerOptions().position(locations.get(1)).title("Carol Yangescu"));
         carol.setTag("106489403453261");
+        markers.add(carol);
 
         Marker karen = mMap.addMarker(new MarkerOptions().position(locations.get(2)).title("Karen Bowerswitz"));
         karen.setTag("114369772663137");
+        markers.add(karen);
 
         Marker tom = mMap.addMarker(new MarkerOptions().position(locations.get(3)).title("Tom Bushaksky"));
         tom.setTag("113951469371495");
+        markers.add(tom);
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(locations.get(0)));
+        LatLngBounds.Builder b = new LatLngBounds.Builder();
+        for (Marker m : markers) {
+            b.include(m.getPosition());
+        }
+        LatLngBounds bounds = b.build();
+        //Change the padding as per needed
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 25,25,5);
+        mMap.animateCamera(cu);
     }
 
     private List<LatLng> getLocations() {
